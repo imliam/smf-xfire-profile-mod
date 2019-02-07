@@ -1,0 +1,261 @@
+<?xml version="1.0"?>
+<!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
+<modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
+	<id>LiamHammett:XFire</id>
+	<version>2.0</version>
+
+	<file name="$sourcedir/Load.php">
+
+		<operation>
+			<search position="after"><![CDATA[
+		'icq' => $profile['icq'] != '' && (empty($modSettings['guest_hideContacts']) || !$user_info['is_guest']) ? array(
+			'name' => $profile['icq'],
+			'href' => 'http://www.icq.com/whitepages/about_me.php?uin=' . $profile['icq'],
+			'link' => '<a href="http://www.icq.com/whitepages/about_me.php?uin=' . $profile['icq'] . '" target="_blank" class="new_win" title="' . $txt['icq_title'] . ' - ' . $profile['icq'] . '"><img src="http://status.icq.com/online.gif?img=5&amp;icq=' . $profile['icq'] . '" alt="' . $txt['icq_title'] . ' - ' . $profile['icq'] . '" width="18" height="18" border="0" /></a>',
+			'link_text' => '<a href="http://www.icq.com/whitepages/about_me.php?uin=' . $profile['icq'] . '" class="extern" title="' . $txt['icq_title'] . ' - ' . $profile['icq'] . '">' . $profile['icq'] . '</a>',
+		) : array('name' => '', 'add' => '', 'href' => '', 'link' => '', 'link_text' => ''),
+]]></search>
+			<add><![CDATA[
+		'xfire' => $profile['xfire'] !='' && (empty($modSettings['guest_hideContacts']) || !$user_info['is_guest']) ? array(
+			'name' => $profile['xfire'],
+			'href' => 'http://www.xfire.com/profile/'.$profile['xfire'],
+			'link' => '<a href="http://www.xfire.com/profile/' . $profile['xfire'] . '" target="_blank" title="' . $txt['xfire_title'] . ' - ' . $profile['xfire'] . '"><img src="' . $settings['images_url'] . '/xfire.gif" alt="G" border="0" /></a>',
+			'link_text' => '<a href="http://www.xfire.com/profile/' . $profile['xfire'] . '" target="_blank" title="' . $txt['xfire_title'] . ' - ' . $profile['xfire'] . '">' . $profile['xfire'] . '</a>'
+		) : array('name' => '', 'href' => '', 'link' => '', 'link_text' => ''),
+]]></add>
+		</operation>
+
+		<operation>
+			<search position="replace"><![CDATA[mem.birthdate, mem.member_ip, mem.member_ip2, mem.icq, mem.aim, mem.yim, mem.msn, mem.posts, mem.last_login,]]></search>
+			<add><![CDATA[mem.xfire, mem.birthdate, mem.member_ip, mem.member_ip2, mem.icq, mem.aim, mem.yim, mem.msn, mem.posts, mem.last_login,]]></add>
+		</operation>
+
+		<operation>
+			<search position="replace"><![CDATA[mem.birthdate, mem.icq, mem.aim, mem.yim, mem.msn, mem.posts, mem.last_login, mem.karma_good,]]></search>
+			<add><![CDATA[mem.xfire, mem.birthdate, mem.icq, mem.aim, mem.yim, mem.msn, mem.posts, mem.last_login, mem.karma_good,]]></add>
+		</operation>
+
+		<operation>
+			<search position="replace"><![CDATA['icq', 'msn', 'aim', 'yim']]></search>
+			<add><![CDATA['xfire', 'icq', 'msn', 'aim', 'yim']]></add>
+		</operation>
+
+	</file>
+
+	<file name="$sourcedir/ManageMembers.php">
+
+		<operation>
+			<search position="replace"><![CDATA['icq',]]></search>
+			<add><![CDATA['xfire', 'icq',]]></add>
+		</operation>
+
+	</file>
+
+	<file name="$sourcedir/ManageSettings.php">
+
+		<operation>
+			<search position="replace"><![CDATA[// What about standard fields they can tweak?
+	$standard_fields = array(]]></search>
+			<add><![CDATA[// What about standard fields they can tweak?
+	$standard_fields = array('xfire',]]></add>
+		</operation>
+
+		<operation>
+			<search position="replace"><![CDATA[if ($standardFields)
+	{
+		$standard_fields = array(]]></search>
+			<add><![CDATA[if ($standardFields)
+	{
+		$standard_fields = array('xfire',]]></add>
+		</operation>
+
+	</file>
+
+	<file name="$sourcedir/Register.php">
+
+		<operation>
+			<search position="replace"><![CDATA['aim',]]></search>
+			<add><![CDATA['xfire', 'aim',]]></add>
+		</operation>
+
+	</file>
+
+	<file name="$sourcedir/Memberlist.php">
+		<operation>
+			<search position="after"><![CDATA[
+		'icq' => array(
+			'label' => $txt['icq'],
+			'width' => '25'
+		),]]></search>
+			<add><![CDATA[
+		'xfire' => array(
+			'label' => $txt['xfire_title'],
+			'width' => '25'
+		),
+]]></add>
+		</operation>
+
+		<operation>
+			<search position="after"><![CDATA[
+		'icq' => array(
+			'down' => 'LENGTH(mem.icq) > 0 ASC, IFNULL(mem.icq, 1=1) OR mem.icq = 0 DESC, mem.icq DESC',
+			'up' => 'LENGTH(mem.icq) > 0 DESC, IFNULL(mem.icq, 1=1) OR mem.icq = 0 ASC, mem.icq ASC'
+		),]]></search>
+			<add><![CDATA[
+		'xfire' => array(
+			'down' => 'LENGTH(mem.xfire) > 0 ASC, IFNULL(mem.xfire, 1=1) DESC, mem.xfire DESC',
+			'up' => 'LENGTH(mem.xfire) > 0 DESC, IFNULL(mem.xfire, 1=1) ASC, mem.xfire ASC'
+		),
+]]></add>
+		</operation>
+
+		<operation>
+			<search position="replace"><![CDATA[$fields += array(3 =>]]></search>
+			<add><![CDATA[$fields += array(3 => 'xfire',]]></add>
+		</operation>
+
+	</file>
+
+	<file name="$sourcedir/News.php">
+
+		<operation>
+			<search position="after"><![CDATA[
+		if (!empty($profile['icq']['name']) && !(!empty($modSettings['guest_hideContacts']) && $user_info['is_guest']))
+			$data['icq'] = $profile['icq']['name'];
+]]></search>
+			<add><![CDATA[
+		if ($profile['xfire']['name'] != '' && !(!empty($modSettings['guest_hideContacts']) && $user_info['is_guest']))
+			$data['xfire'] = $profile['xfire']['name'];
+]]></add>
+		</operation>
+
+	</file>
+
+	<file name="$sourcedir/Profile-Modify.php">
+
+		<operation>
+			<search position="after"><![CDATA[
+		'yim' => array(
+			'type' => 'text',
+			'label' => $txt['yim'],
+			'subtext' => $txt['your_yim'],
+			'size' => 24,
+			'input_attr' => array('maxlength="32"'),
+			'permission' => 'profile_extra',
+		),
+]]></search>
+			<add><![CDATA[
+		'xfire' => array(
+			'type' => 'text',
+			'label' => $txt['xfire_title'],
+			'subtext' => $txt['xfire_desc'],
+			'size' => 24,
+			'input_attr' => array('maxlength="32"'),
+			'permission' => 'profile_extra',
+		),
+]]></add>
+		</operation>
+
+		<operation>
+			<search position="replace"><![CDATA['icq', 'aim',]]></search>
+			<add><![CDATA['xfire', 'icq', 'aim',]]></add>
+		</operation>
+
+	</file>
+
+
+	<file name="$sourcedir/Subs-Members.php">
+
+		<operation>
+			<search position="after"><![CDATA[
+		'icq' => '',
+]]></search>
+			<add><![CDATA[
+		'xfire' => '',
+]]></add>
+		</operation>
+
+		<operation>
+			<search position="replace"><![CDATA[mem.id_member, mem.member_name, mem.real_name, mem.email_address,]]></search>
+			<add><![CDATA[mem.id_member, mem.member_name, mem.real_name, mem.email_address, mem.xfire,]]></add>
+		</operation>
+
+	</file>
+
+	<file name="$themedir/Display.template.php">
+
+		<operation>
+			<search position="after"><![CDATA[
+								', !isset($context['disabled_fields']['icq']) && !empty($message['member']['icq']['link']) ? '<li>' . $message['member']['icq']['link'] . '</li>' : '', '
+]]></search>
+			<add><![CDATA[
+								', !isset($context['disabled_fields']['xfire']) && !empty($message['member']['xfire']['link']) ? '<li>' . $message['member']['xfire']['link'] . '</li>' : '', '
+]]></add>
+		</operation>
+
+	</file>
+
+	<file name="$themedir/PersonalMessage.template.php">
+
+		<operation>
+			<search position="after"><![CDATA[
+									', $message['member']['icq']['link'], '
+]]></search>
+		<add><![CDATA[
+									', $message['member']['xfire']['link'], '
+]]></add>
+		</operation>
+
+	</file>
+
+	<file name="$themedir/Profile.template.php">
+
+		<operation>
+			<search position="after"><![CDATA[				<td align="center">', $txt['icq'], '</td>]]></search>
+			<add><![CDATA[				<td align="center">', $txt['xfire_title'], '</td>
+]]></add>
+		</operation>
+
+		<operation>
+			<search position="after"><![CDATA[				<td align="center">', $buddy['icq']['link'], '</td>]]></search>
+			<add><![CDATA[				<td align="center">', $buddy['xfire']['link'], '</td>
+]]></add>
+		</operation>
+
+		<operation>
+			<search position="after"><![CDATA[				', !isset($context['disabled_fields']['icq']) && !empty($context['member']['icq']['link']) ? '<li>' . $context['member']['icq']['link'] . '</li>' : '', ']]></search>
+			<add><![CDATA[				', !isset($context['disabled_fields']['xfire']) && !empty($context['member']['xfire']['link']) ? '<li>' . $context['member']['xfire']['link'] . '</li>' : '', '
+]]></add>
+		</operation>
+
+	</file>
+
+	<file name="$themedir/Memberlist.template.php">
+
+		<operation>
+			<search position="after"><![CDATA[
+		// ICQ?
+		if (!isset($context['disabled_fields']['icq']))
+			echo '
+			<td class="windowbg2">', $member['icq']['link'], '</td>';
+]]></search>
+			<add><![CDATA[
+		// xfire?
+		if (!isset($context['disabled_fields']['xfire']))
+			echo '
+			<td class="windowbg2">', $member['xfire']['link'], '</td>';
+]]></add>
+		</operation>
+
+	</file>
+
+	<file name="$themedir/Who.template.php">
+
+		<operation>
+			<search position="replace"><![CDATA[', $member['icq']['link'], ']]></search>
+			<add><![CDATA[', $member['xfire']['link'], ' ', $member['icq']['link'], ']]></add>
+		</operation>
+
+	</file>
+
+</modification>

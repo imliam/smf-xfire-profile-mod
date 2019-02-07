@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
+<modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
+	<id>LiamHammett:XFire</id>
+	<version>2.0</version>
+
+	<file name="$themedir/Profile.template.php">
+		<operation>
+			<search position="before"><![CDATA[<td>', $context['member']['yim']['link_text'], '</td>]]></search>
+			<add><![CDATA[</tr><tr><td><b>', $txt['xfire_title'], ': </b></td>
+<td>', !empty($context['member']['options']['xfire']) ? '<a href="http://www.xfire.com/profile/' . $context['member']['options']['xfire'] . '" target="_blank">' . $context['member']['options']['xfire'] . '</a>'  : '', '</td>
+]]></add>
+		</operation>
+		<operation>
+			<search position="before"><![CDATA[<td><input type="text" name="YIM" maxlength="32" size="24" value="', $context['member']['yim']['name'], '" /></td>]]></search>
+			<add><![CDATA[</tr><tr><td><b>', $txt['xfire_title'], ':</b><div class="smalltext">', $txt['xfire_desc'], '</div></td>
+			<td><input type="text" name="default_options[xfire]" maxlength="25" size="24" value="', @$context['member']['options']['xfire'], '" /></td>
+			]]></add>
+		</operation>
+	</file>
+
+	<file name="$themedir/Display.template.php">
+		<operation>
+			<search position="before"><![CDATA[', $message['member']['yim']['link'],]]></search>
+			<add><![CDATA[
+			!empty($message['member']['options']['xfire']) ? '<a href="http://www.xfire.com/profile/' . $message['member']['options']['xfire'] . '" target="_blank"><img border="0" src="' . $settings['images_url'] . '/xfire.gif" alt="' . $message['member']['options']['xfire'] . '"></a>' : '',
+            ]]></add>
+		</operation>
+	</file>
+</modification>
