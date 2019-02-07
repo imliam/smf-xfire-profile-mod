@@ -2,7 +2,7 @@
 <!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
 <modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
 	<id>LiamHammett:XFire</id>
-	<version>2.0</version>
+	<version>2.5</version>
 
 	<file name="$sourcedir/Load.php">
 
@@ -96,10 +96,9 @@
 		</operation>
 
 		<operation>
-			<search position="after"><![CDATA[
-		'icq' => array(
-			'down' => 'LENGTH(mem.icq) > 0 ASC, IFNULL(mem.icq, 1=1) OR mem.icq = 0 DESC, mem.icq DESC',
-			'up' => 'LENGTH(mem.icq) > 0 DESC, IFNULL(mem.icq, 1=1) OR mem.icq = 0 ASC, mem.icq ASC'
+			<search position="after"><![CDATA['icq' => array(
+			'down' => 'LENGTH(mem.icq) > 0 ASC, mem.icq = 0 DESC, mem.icq DESC',
+			'up' => 'LENGTH(mem.icq) > 0 DESC, mem.icq = 0 ASC, mem.icq ASC'
 		),]]></search>
 			<add><![CDATA[
 		'xfire' => array(
@@ -185,11 +184,8 @@
 	<file name="$themedir/Display.template.php">
 
 		<operation>
-			<search position="after"><![CDATA[
-								', !isset($context['disabled_fields']['icq']) && !empty($message['member']['icq']['link']) ? '<li>' . $message['member']['icq']['link'] . '</li>' : '', '
-]]></search>
-			<add><![CDATA[
-								', !isset($context['disabled_fields']['xfire']) && !empty($message['member']['xfire']['link']) ? '<li>' . $message['member']['xfire']['link'] . '</li>' : '', '
+			<search position="after"><![CDATA[										', !empty($message['member']['icq']['link']) ? '<li>' . $message['member']['icq']['link'] . '</li>' : '', ']]></search>
+			<add><![CDATA[										', !empty($message['member']['xfire']['link']) ? '<li>' . $message['member']['xfire']['link'] . '</li>' : '', '
 ]]></add>
 		</operation>
 
@@ -198,11 +194,11 @@
 	<file name="$themedir/PersonalMessage.template.php">
 
 		<operation>
-			<search position="after"><![CDATA[
-									', $message['member']['icq']['link'], '
-]]></search>
+			<search position="before"><![CDATA[['disabled_fields']['icq']) && !empty($message['member']['icq']['link']) ? '
+						<li>' . $message['member']['icq']['link'] . '</li>' : '',]]></search>
 		<add><![CDATA[
-									', $message['member']['xfire']['link'], '
+['disabled_fields']['xfire']) && !empty($message['member']['xfire']['link']) ? '
+						<li>' . $message['member']['xfire']['link'] . '</li>' : '',
 ]]></add>
 		</operation>
 
@@ -211,9 +207,8 @@
 	<file name="$themedir/Profile.template.php">
 
 		<operation>
-			<search position="after"><![CDATA[				<td align="center">', $txt['icq'], '</td>]]></search>
-			<add><![CDATA[				<td align="center">', $txt['xfire_title'], '</td>
-]]></add>
+			<search position="before"><![CDATA[				<th align="center">', $txt['icq'], '</th>]]></search>
+			<add><![CDATA[				<th align="center">', $txt['xfire'], '</th>]]></add>
 		</operation>
 
 		<operation>
@@ -233,17 +228,16 @@
 	<file name="$themedir/Memberlist.template.php">
 
 		<operation>
-			<search position="after"><![CDATA[
-		// ICQ?
+			<search position="after"><![CDATA[		// ICQ?
 		if (!isset($context['disabled_fields']['icq']))
 			echo '
-			<td class="windowbg2">', $member['icq']['link'], '</td>';
-]]></search>
+					<td class="windowbg2">', $member['icq']['link'], '</td>';]]></search>
 			<add><![CDATA[
-		// xfire?
+		// XFire?
 		if (!isset($context['disabled_fields']['xfire']))
 			echo '
-			<td class="windowbg2">', $member['xfire']['link'], '</td>';
+					<td class="windowbg2">', $member['xfire']['link'], '</td>';
+
 ]]></add>
 		</operation>
 

@@ -4,33 +4,19 @@
 <package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
 	<id>LiamHammett:XFire</id>
 	<name>XFire Profile Modification</name>
-	<version>2.0</version>
+	<version>2.5</version>
 	<type>modification</type>
 
-	<install for="2.0 - 2.0.99">
-		<readme parsebbc="true">readme.txt</readme>
+	<install for="2.0 RC2">
 		<modification>install-2.0.xml</modification>
 		<modification>languages.xml</modification>
 		<require-file name="xfire.gif" destination="$imagesdir" />
 		<code>install.php</code>
 	</install>
 
-	<uninstall for="2.0 - 2.0.99">
+	<uninstall for="2.0 RC2">
 		<modification reverse="true">install-2.0.xml</modification>
 		<modification reverse="true">languages.xml</modification>
-		<remove-file name="$imagesdir/xfire.gif" />
-	</uninstall>
-
-	<install for="1.0 - 1.99.99">
-        <readme type="file">readme.txt</readme>
-		<modification format="xml" type="file">install-1.1.x.xml</modification>
-		<modification format="xml" type="file">languages.xml</modification>
-		<require-file name="xfire.gif" destination="$imagesdir" />
-	</install>
-
-	<uninstall for="1.0 - 1.99.99">
-		<modification format="xml" type="file" reverse="true">install-1.1.x.xml</modification>
-		<modification format="xml" type="file" reverse="true">languages.xml</modification>
 		<remove-file name="$imagesdir/xfire.gif" />
 	</uninstall>
 </package-info>
